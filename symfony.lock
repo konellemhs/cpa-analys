@@ -1,4 +1,7 @@
 {
+    "admitad/api": {
+        "version": "0.1.4"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.2"
     },
@@ -84,6 +87,9 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
+    },
+    "kriswallsmith/buzz": {
+        "version": "v0.15"
     },
     "laminas/laminas-code": {
         "version": "4.4.2"
