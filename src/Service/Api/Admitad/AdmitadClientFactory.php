@@ -4,7 +4,7 @@ namespace App\Service\Api\Admitad;
 
 use Admitad\Api\Api;
 
-final class ClientFactory
+final class AdmitadClientFactory
 {
     private string $clientId;
     private string $clientSecret;
@@ -28,8 +28,31 @@ final class ClientFactory
     /**
      * @return Api
      */
-    public static function getApi(): Api
+    public function getApi(): Api
     {
+        try {
+            $accessTokenResponse = (new Api())->authorizeByPassword(
+                $this->clientId,
+                $this->clientSecret,
+                'advcampaigns',
+                'login',
+                'password'
+            );
+            
+            $api = new Api($accessTokenResponse->getResult('access_token'));
+
+            dd($api->get('/advcampaigns/')->getResult());
+
+        }catch (\Exception $exception) {
+            dd($exception);
+        }
+
+
+
+
+        dd($authorizeUrl);
+
+        $authorizeUrl = $api->requestAccessToken($this->clientId, $this->clientSecret, $scope);
         return new Api();
     }
 }

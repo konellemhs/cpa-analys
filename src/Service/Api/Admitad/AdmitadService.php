@@ -11,9 +11,9 @@ class AdmitadService
      */
     private Api $api;
 
-    public function __construct()
+    public function __construct(AdmitadClientFactory $factory)
     {
-        $this->api = ClientFactory::getApi();
+        $this->api = $factory->getApi();
     }
 
     public function test(): void
