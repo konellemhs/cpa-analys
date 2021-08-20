@@ -13,7 +13,8 @@ services:
         bind:
             $admitadApiClientId: '%env(ADMITAD_CLIENT_ID)%'
             $admitadApiClientSecret: '%env(ADMITAD_CLIENT_SECRET)%'
-            $admitadApiClientHeader: '%env(ADMITAD_CLIENT_HEADER)%'
+            $admitadLogin: '%env(ADMITAD_LOGIN)%'
+            $admitadPass: '%env(ADMITAD_PASS)%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

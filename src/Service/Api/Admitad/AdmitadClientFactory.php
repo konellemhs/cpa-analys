@@ -6,23 +6,47 @@ use Admitad\Api\Api;
 
 final class AdmitadClientFactory
 {
+    /**
+     * scope
+     */
+    private const ADV_CAMPAIGNS_SCOPE = 'advcampaigns';
+
+    /**
+     * @var string
+     */
     private string $clientId;
+
+    /**
+     * @var string
+     */
     private string $clientSecret;
-    private string $clientHeader;
+
+    /**
+     * @var string
+     */
+    private string $admitadLogin;
+
+    /**
+     * @var string
+     */
+    private string $admitadPass;
 
     /**
      * @param string $admitadApiClientId
      * @param string $admitadApiClientSecret
-     * @param string $admitadApiClientHeader
+     * @param string $admitadLogin
+     * @param string $admitadPass
      */
     public function __construct(
         string $admitadApiClientId,
         string $admitadApiClientSecret,
-        string $admitadApiClientHeader
+        string $admitadLogin,
+        string $admitadPass,
     ) {
         $this->clientId = $admitadApiClientId;
         $this->clientSecret = $admitadApiClientSecret;
-        $this->clientHeader = $admitadApiClientHeader;
+        $this->admitadLogin = $admitadLogin;
+        $this->admitadPass = $admitadPass;
     }
 
     /**
@@ -30,29 +54,16 @@ final class AdmitadClientFactory
      */
     public function getApi(): Api
     {
-        try {
-            $accessTokenResponse = (new Api())->authorizeByPassword(
-                $this->clientId,
-                $this->clientSecret,
-                'advcampaigns',
-                'login',
-                'password'
-            );
-            
-            $api = new Api($accessTokenResponse->getResult('access_token'));
+        $accessTokenResponse = (new Api())->authorizeByPassword(
+            $this->clientId,
+            $this->clientSecret,
+            self::ADV_CAMPAIGNS_SCOPE,
+            $this->admitadLogin,
+            $this->admitadPass
+        );
 
-            dd($api->get('/advcampaigns/')->getResult());
-
-        }catch (\Exception $exception) {
-            dd($exception);
-        }
-
-
-
-
-        dd($authorizeUrl);
-
-        $authorizeUrl = $api->requestAccessToken($this->clientId, $this->clientSecret, $scope);
-        return new Api();
+        return new Api(
+            $accessTokenResponse->getResult('access_token')
+        );
     }
 }
