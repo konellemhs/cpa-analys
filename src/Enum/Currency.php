@@ -15,11 +15,17 @@ class Currency extends Enum
     public const USD = 'USD';
 
     /**
+     * Payment in EURO
+     */
+    public const EUR = 'EUR';
+
+    /**
      * Array of valid values
      */
     private const VALID_VALUES = [
         self::RUB,
-        self::USD
+        self::USD,
+        self::EUR,
     ];
 
     /**

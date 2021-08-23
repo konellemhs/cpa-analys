@@ -7,5 +7,6 @@
 /public/bundles/
 /var/
 /vendor/
+/temp/
 ###< symfony/framework-bundle ###
 /src/Controller/TestController.php
