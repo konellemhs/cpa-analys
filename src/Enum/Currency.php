@@ -20,12 +20,30 @@ class Currency extends Enum
     public const EUR = 'EUR';
 
     /**
+     * Payment in Ukrainian hryvnia
+     */
+    public const UAH = 'UAH';
+
+    /**
+     * Payment in BYN
+     */
+    public const BYN = 'BYN';
+
+    /**
+     * Indian rupee
+     */
+    public const INR = 'INR';
+
+    /**
      * Array of valid values
      */
     private const VALID_VALUES = [
         self::RUB,
         self::USD,
         self::EUR,
+        self::UAH,
+        self::BYN,
+        self::INR,
     ];
 
     /**

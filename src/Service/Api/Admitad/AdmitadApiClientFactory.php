@@ -4,12 +4,12 @@ namespace App\Service\Api\Admitad;
 
 use Admitad\Api\Api;
 
-final class AdmitadClientFactory
+final class AdmitadApiClientFactory
 {
     /**
      * scope
      */
-    private const ADV_CAMPAIGNS_SCOPE = 'advcampaigns';
+    private const APPLICATION_SCOPE = 'advcampaigns';
 
     /**
      * @var string
@@ -50,14 +50,18 @@ final class AdmitadClientFactory
     }
 
     /**
+     * Combine AdmitadApiClient
+     *
      * @return Api
+     *
+     * @see https://github.com/admitad/admitad-php-api
      */
-    public function getApi(): Api
+    public function getClient(): Api
     {
         $accessTokenResponse = (new Api())->authorizeByPassword(
             $this->clientId,
             $this->clientSecret,
-            self::ADV_CAMPAIGNS_SCOPE,
+            self::APPLICATION_SCOPE,
             $this->admitadLogin,
             $this->admitadPass
         );

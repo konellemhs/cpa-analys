@@ -90,14 +90,14 @@ class AdmitadOfferData
     private Collection $traffics;
 
     /**
-     * @var int
+     * @var int | null
      */
-    private int $averageHoldTime;
+    private ?int $averageHoldTime;
 
     /**
-     * @var int
+     * @var int | null
      */
-    private int $averageMoneyTransferTime;
+    private ?int $averageMoneyTransferTime;
 
     /**
      * @param int                        $id
@@ -116,8 +116,8 @@ class AdmitadOfferData
      * @param DateTimeImmutable          $activationTime
      * @param DateTimeImmutable          $modifiedTime
      * @param array<AdmitadTraffic>      $traffics
-     * @param int                        $averageHoldTime
-     * @param int                        $averageMoneyTransferTime
+     * @param int | null                 $averageHoldTime
+     * @param int | null                 $averageMoneyTransferTime
      */
     public function __construct(
         int $id,
@@ -136,8 +136,8 @@ class AdmitadOfferData
         DateTimeImmutable $activationTime,
         DateTimeImmutable $modifiedTime,
         array $traffics,
-        int $averageHoldTime,
-        int $averageMoneyTransferTime
+        ?int $averageHoldTime,
+        ?int $averageMoneyTransferTime
     ) {
         $this->id = $id;
         $this->name = $name;
