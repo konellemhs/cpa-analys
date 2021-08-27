@@ -12,6 +12,11 @@ final class AdmitadApiClientFactory
     private const APPLICATION_SCOPE = 'advcampaigns';
 
     /**
+     * The field in response where access key is stored
+     */
+    private const ACCESS_TOKEN_FIELD = 'access_token';
+
+    /**
      * @var string
      */
     private string $clientId;
@@ -66,8 +71,6 @@ final class AdmitadApiClientFactory
             $this->admitadPass
         );
 
-        return new Api(
-            $accessTokenResponse->getResult('access_token')
-        );
+        return new Api($accessTokenResponse->getResult(self::ACCESS_TOKEN_FIELD));
     }
 }

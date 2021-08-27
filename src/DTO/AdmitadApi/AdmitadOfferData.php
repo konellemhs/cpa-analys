@@ -3,6 +3,7 @@
 namespace App\DTO\AdmitadApi;
 
 use App\Enum\Currency;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -35,19 +36,19 @@ class AdmitadOfferData
     private float $rating;
 
     /**
-     * @var float
+     * @var float | null
      */
-    private float $ecps;
+    private ?float $ecps;
 
     /**
-     * @var float
+     * @var float | null
      */
-    private float $epc;
+    private ?float $epc;
 
     /**
-     * @var float
+     * @var float | null
      */
-    private float $cr;
+    private ?float $cr;
 
     /**
      * @var Collection<ActionData>
@@ -105,9 +106,9 @@ class AdmitadOfferData
      * @param string | null              $description
      * @param Currency                   $currency
      * @param float                      $rating
-     * @param float                      $ecps
-     * @param float                      $epc
-     * @param float                      $cr
+     * @param float | null               $ecps
+     * @param float | null               $epc
+     * @param float | null               $cr
      * @param array<ActionData>          $actions
      * @param array<string>              $regions
      * @param array<AdmitadCategoryData> $categories
@@ -125,9 +126,9 @@ class AdmitadOfferData
         ?string $description,
         Currency $currency,
         float $rating,
-        float $ecps,
-        float $epc,
-        float $cr,
+        ?float $ecps,
+        ?float $epc,
+        ?float $cr,
         array $actions,
         array $regions,
         array $categories,
@@ -290,5 +291,34 @@ class AdmitadOfferData
             averageHoldTime: $data['avg_hold_time'],
             averageMoneyTransferTime: $data['avg_money_transfer_time'],
         );
+    }
+
+    /**
+     * Return object as array
+     *
+     * @return array
+     */
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'currency' => $this->currency,
+            'rating' => $this->rating,
+            'ecps' => $this->ecps,
+            'epc' => $this->epc,
+            'cr' => $this->cr,
+            'actions' => $this->actions->toArray(),
+            'regions' => $this->regions->toArray(),
+            'categories' => $this->categories->toArray(),
+            'status' => $this->status,
+            'imageLink' => $this->imageLink,
+            'activationTime' => $this->activationTime->format(DATE_ATOM),
+            'modifiedTime' => $this->modifiedTime->format(DATE_ATOM),
+            'traffics' => $this->traffics->toArray(),
+            'averageHoldTime' => $this->averageHoldTime,
+            'averageMoneyTransferTime' => $this->averageMoneyTransferTime,
+        ];
     }
 }

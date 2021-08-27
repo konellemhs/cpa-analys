@@ -15,11 +15,17 @@ class OfferActionType extends Enum
     private const LEAD = 'lead';
 
     /**
+     * Purpose of the offer is click
+     */
+    private const CLICK = 'click';
+
+    /**
      * Array of valid values
      */
     private const VALID_VALUES = [
         self::SALE,
         self::LEAD,
+        self::CLICK,
     ];
 
     /**

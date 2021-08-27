@@ -107,11 +107,7 @@ class AdmitadApiService
         ?int $offset = 0
     ): array {
         $this->logger->info(
-            sprintf(
-                'Request in AdmitadApi with limit = %d and offset %d',
-                $limit,
-                $offset
-            )
+            sprintf('Request in AdmitadApi with limit = %d and offset %d', $limit, $offset)
         );
 
         return $this->getResponse(
