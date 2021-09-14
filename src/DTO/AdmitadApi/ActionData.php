@@ -61,10 +61,6 @@ class ActionData
      */
     public static function fromArray(array $data): self
     {
-        if (!is_int($data['id'])) {
-            throw new \Exception();
-        }
-
         return new self(
             id: $data['id'],
             type: new OfferActionType($data['type']),

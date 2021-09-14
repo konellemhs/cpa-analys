@@ -16,6 +16,13 @@ services:
             $admitadLogin: '%env(ADMITAD_LOGIN)%'
             $admitadPass: '%env(ADMITAD_PASS)%'
 #            $temporaryCacheDirectory: '%kernel.project_dir%\temp\'
+
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ '@annotation_reader' ] ]
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

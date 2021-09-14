@@ -3,7 +3,6 @@
 namespace App\DTO\AdmitadApi;
 
 use App\Enum\Currency;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -291,34 +290,5 @@ class AdmitadOfferData
             averageHoldTime: $data['avg_hold_time'],
             averageMoneyTransferTime: $data['avg_money_transfer_time'],
         );
-    }
-
-    /**
-     * Return object as array
-     *
-     * @return array
-     */
-    public function __serialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'currency' => $this->currency,
-            'rating' => $this->rating,
-            'ecps' => $this->ecps,
-            'epc' => $this->epc,
-            'cr' => $this->cr,
-            'actions' => $this->actions->toArray(),
-            'regions' => $this->regions->toArray(),
-            'categories' => $this->categories->toArray(),
-            'status' => $this->status,
-            'imageLink' => $this->imageLink,
-            'activationTime' => $this->activationTime->format(DATE_ATOM),
-            'modifiedTime' => $this->modifiedTime->format(DATE_ATOM),
-            'traffics' => $this->traffics->toArray(),
-            'averageHoldTime' => $this->averageHoldTime,
-            'averageMoneyTransferTime' => $this->averageMoneyTransferTime,
-        ];
     }
 }
