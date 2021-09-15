@@ -2,6 +2,7 @@
 
 namespace App\Service\Offer;
 
+use App\Entity\Offer\AdmitadOffer;
 use App\Repository\Offer\OfferRepositoryInterface;
 
 class OfferService
@@ -18,5 +19,15 @@ class OfferService
     {
         $this->offerRepository = $offerRepository;
     }
+
+    // /**
+    //  *
+    //  */
+    // public function createAdmitadOffer(): AdmitadOffer
+    // {
+    //     $offer = new AdmitadOffer(
+    //
+    //     )
+    // }
 
 }

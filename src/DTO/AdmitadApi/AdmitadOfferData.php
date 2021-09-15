@@ -2,12 +2,13 @@
 
 namespace App\DTO\AdmitadApi;
 
+use App\DTO\OfferDataInterface;
 use App\Enum\Currency;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-class AdmitadOfferData
+class AdmitadOfferData implements OfferDataInterface
 {
     /**
      * @var int

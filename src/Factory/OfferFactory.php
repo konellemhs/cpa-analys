@@ -1,7 +1,8 @@
 <?php
 
-namespace Service\Offer;
+namespace App\Factory;
 
+use App\DTO\OfferDataInterface;
 use App\Entity\Offer\Offer;
 use App\Service\Offer\OfferService;
 
@@ -22,9 +23,14 @@ class OfferFactory
     {
         $this->offerService = $offerService;
     }
-
-    public function createOffer(): Offer
-    {
-
-    }
+    //
+    // /**
+    //  * @param OfferDataInterface $offerData
+    //  *
+    //  * @return Offer
+    //  */
+    // public function createOffer(OfferDataInterface $offerData): Offer
+    // {
+    //     $this->offerService->createAdmitadOffer();
+    // }
 }
