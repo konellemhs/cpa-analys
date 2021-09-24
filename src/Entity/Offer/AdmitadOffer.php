@@ -2,9 +2,15 @@
 
 namespace App\Entity\Offer;
 
+use App\Entity\Action\OfferAction;
 use App\Entity\Category\AdmitadCategory;
+use App\Entity\Region;
+use App\Entity\Traffic\OfferTraffic;
+use App\Enum\Currency;
 use App\VO\OfferData\Common\AdmitadOfferCommonData;
 use App\VO\OfferData\Statistics\AdmitadOfferStatisticsData;
+use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -49,16 +55,36 @@ class AdmitadOffer extends Offer
      */
     private Collection $categories;
 
-
     /**
-     * @var Collection<array<int, string>>
+     * @param Currency                   $currency
+     * @param array<OfferAction>         $actions
+     * @param array<Region>              $regions
+     * @param array<OfferTraffic>        $traffics
+     * @param array<AdmitadCategory>     $categories
+     * @param int                        $admitadOfferId
+     * @param AdmitadOfferCommonData     $commonData
+     * @param AdmitadOfferStatisticsData $statisticsData
      */
-    private Collection $regions;
+    public function __construct(
+        Currency $currency,
+        array $actions,
+        array $regions,
+        array $traffics,
+        array $categories,
+        int $admitadOfferId,
+        AdmitadOfferCommonData $commonData,
+        AdmitadOfferStatisticsData $statisticsData
+    ) {
+        parent::__construct(
+            $currency,
+            $actions,
+            $regions,
+            $traffics
+        );
 
-    /**
-     * @var Collection<AdmitadTraffic>
-     */
-    private Collection $traffics;
-
-
+        $this->categories = new ArrayCollection(array_unique($categories, SORT_REGULAR));
+        $this->admitadOfferId = $admitadOfferId;
+        $this->commonData = $commonData;
+        $this->statisticsData = $statisticsData;
+    }
 }

@@ -4,8 +4,10 @@ namespace App\Entity\Offer;
 
 use App\Entity\Action\OfferAction;
 use App\Entity\Region;
+use App\Entity\Traffic\OfferTraffic;
 use App\Enum\Currency;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Entity\Category;
@@ -56,11 +58,6 @@ abstract class Offer
     private Currency $currency;
 
     /**
-     * @var Collection<Category>
-     */
-    private Collection $categories;
-
-    /**
      * @var Collection<OfferAction>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Action\OfferAction", mappedBy="offer")
@@ -77,4 +74,30 @@ abstract class Offer
      * )
      */
     private Collection $regions;
+
+    /**
+     * @var Collection<OfferTraffic>
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Traffic\OfferTraffic", mappedBy="offer")
+     */
+    private Collection $traffics;
+
+    /**
+     * @param Currency            $currency
+     * @param array<OfferAction>  $actions
+     * @param array<Region>       $regions
+     * @param array<OfferTraffic> $traffics
+     */
+    public function __construct(
+        Currency $currency,
+        array $actions,
+        array $regions,
+        array $traffics
+    ) {
+        $this->currency = $currency;
+        $this->actions = new ArrayCollection(array_unique($actions, SORT_REGULAR));
+        $this->regions = new ArrayCollection(array_unique($regions, SORT_REGULAR));
+        $this->traffics = new ArrayCollection(array_unique($traffics, SORT_REGULAR));
+    }
+
 }

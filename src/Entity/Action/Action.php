@@ -31,21 +31,18 @@ class Action
     /**
      * @var Collection
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Action\OfferAction", inversedBy="action")
+     * @ORM\OneToMany(targetEntity="App\Entity\Action\OfferAction", mappedBy="action")
      */
     private Collection $offers;
 
     /**
-     * @param string $id
      * @param string $name
      * @param array  $offers
      */
     public function __construct(
-        string $id,
         string $name,
         array $offers = []
     ) {
-        $this->id = $id;
         $this->name = $name;
         $this->offers = new ArrayCollection(array_unique($offers, SORT_REGULAR));
     }

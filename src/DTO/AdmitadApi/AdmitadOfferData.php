@@ -3,6 +3,7 @@
 namespace App\DTO\AdmitadApi;
 
 use App\DTO\OfferDataInterface;
+use App\Entity\Traffic\OfferTraffic;
 use App\Enum\Currency;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -246,6 +247,62 @@ class AdmitadOfferData implements OfferDataInterface
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    /**
+     * @return Currency
+     */
+    public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageLink(): string
+    {
+        return $this->imageLink;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getActivationTime(): DateTimeImmutable
+    {
+        return $this->activationTime;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getModifiedTime(): DateTimeImmutable
+    {
+        return $this->modifiedTime;
+    }
+
+    /**
+     * @return Collection<OfferTraffic>
+     */
+    public function getTraffics(): Collection
+    {
+        return $this->traffics;
+    }
+
+    /**
+     * @return int | null
+     */
+    public function getAverageHoldTime(): ?int
+    {
+        return $this->averageHoldTime;
+    }
+
+    /**
+     * @return int | null
+     */
+    public function getAverageMoneyTransferTime(): ?int
+    {
+        return $this->averageMoneyTransferTime;
     }
 
     /**

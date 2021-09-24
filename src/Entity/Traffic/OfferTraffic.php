@@ -9,21 +9,21 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="offer_traffic", uniqueConstraints={
  *     @ORM\UniqueConstraint(
- *          name="notebook_communications_related_user_idx",
- *          columns={"notebook_id", "related_user_entity_id", "related_user_entity_type"}
+ *          name="offer_traffic_unique_idx",
+ *          columns={"traffic_id", "offer_id"}
  *     )
  * })
  */
 class OfferTraffic
 {
     /**
-     * @var string
+     * @var int
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="uuid")
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    private string $id;
+    private int $id;
 
     /**
      * @var bool

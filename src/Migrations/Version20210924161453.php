@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210914001300 extends AbstractMigration
+final class Version20210924161453 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,11 +20,10 @@ final class Version20210914001300 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE action (id UUID NOT NULL, offers_id UUID DEFAULT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE SEQUENCE offer_traffic_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE TABLE action (id UUID NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_47CC8C925E237E06 ON action (name)');
-        $this->addSql('CREATE INDEX IDX_47CC8C92A090B42E ON action (offers_id)');
         $this->addSql('COMMENT ON COLUMN action.id IS \'(DC2Type:uuid)\'');
-        $this->addSql('COMMENT ON COLUMN action.offers_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE category (id UUID NOT NULL, category_name VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, admitad_category_external_id INT DEFAULT NULL, admitad_language VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN category.id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE offer (id UUID NOT NULL, last_updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, currency VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, admitad_offer_id INT DEFAULT NULL, admitad_offer_link VARCHAR(255) DEFAULT NULL, admitad_offer_activation_time TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, admitad_offer_last_modified_time TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, admitad_offer_rating INT DEFAULT NULL, PRIMARY KEY(id))');
@@ -49,16 +48,26 @@ final class Version20210914001300 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN offer_action.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN offer_action.offer_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN offer_action.action_id IS \'(DC2Type:uuid)\'');
+        $this->addSql('CREATE TABLE offer_traffic (id INT NOT NULL, traffic_id UUID DEFAULT NULL, offer_id UUID DEFAULT NULL, is_enabled BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_F468E039CC46C289 ON offer_traffic (traffic_id)');
+        $this->addSql('CREATE INDEX IDX_F468E03953C674EE ON offer_traffic (offer_id)');
+        $this->addSql('CREATE UNIQUE INDEX offer_traffic_unique_idx ON offer_traffic (traffic_id, offer_id)');
+        $this->addSql('COMMENT ON COLUMN offer_traffic.traffic_id IS \'(DC2Type:uuid)\'');
+        $this->addSql('COMMENT ON COLUMN offer_traffic.offer_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE region (id UUID NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_F62F1765E237E06 ON region (name)');
         $this->addSql('COMMENT ON COLUMN region.id IS \'(DC2Type:uuid)\'');
-        $this->addSql('ALTER TABLE action ADD CONSTRAINT FK_47CC8C92A090B42E FOREIGN KEY (offers_id) REFERENCES offer_action (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE TABLE traffic (id UUID NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_556026305E237E06 ON traffic (name)');
+        $this->addSql('COMMENT ON COLUMN traffic.id IS \'(DC2Type:uuid)\'');
         $this->addSql('ALTER TABLE offers_regions ADD CONSTRAINT FK_CB97595B53C674EE FOREIGN KEY (offer_id) REFERENCES offer (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE offers_regions ADD CONSTRAINT FK_CB97595B98260155 FOREIGN KEY (region_id) REFERENCES region (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE admitad_category_offers ADD CONSTRAINT FK_31D0C2EE6BF23333 FOREIGN KEY (admitad_category_id) REFERENCES offer (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE admitad_category_offers ADD CONSTRAINT FK_31D0C2EEF4842A5E FOREIGN KEY (admitad_offer_id) REFERENCES category (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE offer_action ADD CONSTRAINT FK_9E99FB3353C674EE FOREIGN KEY (offer_id) REFERENCES offer (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE offer_action ADD CONSTRAINT FK_9E99FB339D32F035 FOREIGN KEY (action_id) REFERENCES action (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE offer_traffic ADD CONSTRAINT FK_F468E039CC46C289 FOREIGN KEY (traffic_id) REFERENCES traffic (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE offer_traffic ADD CONSTRAINT FK_F468E03953C674EE FOREIGN KEY (offer_id) REFERENCES offer (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
@@ -70,14 +79,18 @@ final class Version20210914001300 extends AbstractMigration
         $this->addSql('ALTER TABLE offers_regions DROP CONSTRAINT FK_CB97595B53C674EE');
         $this->addSql('ALTER TABLE admitad_category_offers DROP CONSTRAINT FK_31D0C2EE6BF23333');
         $this->addSql('ALTER TABLE offer_action DROP CONSTRAINT FK_9E99FB3353C674EE');
-        $this->addSql('ALTER TABLE action DROP CONSTRAINT FK_47CC8C92A090B42E');
+        $this->addSql('ALTER TABLE offer_traffic DROP CONSTRAINT FK_F468E03953C674EE');
         $this->addSql('ALTER TABLE offers_regions DROP CONSTRAINT FK_CB97595B98260155');
+        $this->addSql('ALTER TABLE offer_traffic DROP CONSTRAINT FK_F468E039CC46C289');
+        $this->addSql('DROP SEQUENCE offer_traffic_id_seq CASCADE');
         $this->addSql('DROP TABLE action');
         $this->addSql('DROP TABLE category');
         $this->addSql('DROP TABLE offer');
         $this->addSql('DROP TABLE offers_regions');
         $this->addSql('DROP TABLE admitad_category_offers');
         $this->addSql('DROP TABLE offer_action');
+        $this->addSql('DROP TABLE offer_traffic');
         $this->addSql('DROP TABLE region');
+        $this->addSql('DROP TABLE traffic');
     }
 }
