@@ -4,10 +4,11 @@ namespace App\Repository\Offer;
 
 use App\Entity\Offer\AdmitadOffer;
 use App\Entity\Offer\Offer;
+use App\Exception\Entity\CannotSaveEntityException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Throwable;
 
 /**
  * @method Offer | null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OfferRepository extends ServiceEntityRepository implements OfferRepositoryInterface
 {
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Offer::class);
@@ -29,17 +33,28 @@ class OfferRepository extends ServiceEntityRepository implements OfferRepository
      *
      * @return Offer
      *
-     * @throws ORMException
-     * @throws \Throwable
+     * @throws CannotSaveEntityException
      */
     public function save(Offer $offer): Offer
     {
-        $this->_em->transactional(
-            function () use ($offer) {
-                $this->_em->persist($offer);
-                $this->_em->flush();
-            }
-        );
+        try {
+            $this->_em->transactional(
+                function () use ($offer) {
+                    $this->_em->persist($offer);
+                    $this->_em->flush();
+                }
+            );
+        } catch (Throwable $exception) {
+            throw new CannotSaveEntityException(
+                sprintf(
+                    'cannot save entity %s because %s',
+                    get_class($offer),
+                    $exception->getMessage()
+                ),
+                $exception->getCode(),
+                $exception
+            );
+        }
 
         return $offer;
     }

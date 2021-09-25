@@ -46,4 +46,42 @@ class Action
         $this->name = $name;
         $this->offers = new ArrayCollection(array_unique($offers, SORT_REGULAR));
     }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Collection<OfferAction>
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    /**
+     * @param OfferAction $offerAction
+     *
+     * @return Action
+     */
+    public function addOffer(OfferAction $offerAction): self
+    {
+        if (!$this->offers->contains($offerAction)) {
+            $this->offers->add($offerAction);
+        }
+
+        return $this;
+    }
 }

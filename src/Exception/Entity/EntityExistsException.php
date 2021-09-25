@@ -1,9 +1,7 @@
 <?php
 
-namespace Exception\Entity;
+namespace App\Exception\Entity;
 
-use Exception;
-
-class EntityExistsException extends Exception
+class EntityExistsException extends EntityException
 {
 }

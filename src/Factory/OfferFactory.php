@@ -31,7 +31,7 @@ class OfferFactory
         ActionService $actionService
     ) {
         $this->offerService = $offerService;
-        $this->actionService = $actionService
+        $this->actionService = $actionService;
     }
 
     /**

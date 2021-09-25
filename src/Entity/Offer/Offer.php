@@ -5,6 +5,7 @@ namespace App\Entity\Offer;
 use App\Entity\Action\OfferAction;
 use App\Entity\Region;
 use App\Entity\Traffic\OfferTraffic;
+use App\Entity\Traffic\Traffic;
 use App\Enum\Currency;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -100,4 +101,59 @@ abstract class Offer
         $this->traffics = new ArrayCollection(array_unique($traffics, SORT_REGULAR));
     }
 
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getLastUpdatedAt(): DateTimeImmutable
+    {
+        return $this->lastUpdatedAt;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return Currency
+     */
+    public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @return Collection<OfferAction>
+     */
+    public function getActions(): Collection
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @return Collection<Region>
+     */
+    public function getRegions(): Collection
+    {
+        return $this->regions;
+    }
+
+    /**
+     * @return Collection<Traffic>
+     */
+    public function getTraffics(): Collection
+    {
+        return $this->traffics;
+    }
 }
